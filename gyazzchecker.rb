@@ -25,13 +25,13 @@ Gyazz.search(name)[0...10].each{|page|
   if pages[title] == nil
     pages[title] = data
     puts data
-    ImKayac.send(im_kayac, "http://gyazz.com/#{name}/#{title}\n #{data}")
+    ImKayac.send(im_kayac, "newpage http://gyazz.com/#{name}/#{title}\n #{data}")
   else
     changed, diff = Gyazz.diff(pages[title], data)
     if changed
       pages[title] = data
       puts diff
-      ImKayac.send(im_kayac, "newpage http://gyazz.com/#{name}/#{title}\n #{diff}")
+      ImKayac.send(im_kayac, "http://gyazz.com/#{name}/#{title}\n #{diff}")
     end
   end
   sleep 10
