@@ -29,8 +29,8 @@ module Gyazz
       if d.old_element == d.new_element
         str += " #{d.old_element}\n"
       else
-        str += "-#{d.old_element}\n" if d.old_element and d.old_element.size>0
-        str += "+#{d.new_element}\n" if d.new_element and d.new_element.size>0
+        str += "*-#{d.old_element}*\n" if d.old_element and d.old_element.size>0
+        str += "*+#{d.new_element}*\n" if d.new_element and d.new_element.size>0
         changed = true
       end
     }
