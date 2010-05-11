@@ -15,7 +15,7 @@ end
 name = ARGV.shift # searchword
 
 pages = HDB.new
-pages.open("#{name}.tch", HDB::OWRITER|HDB::OCREAT)
+pages.open(File.dirname(__FILE__)+"/#{name}.tch", HDB::OWRITER|HDB::OCREAT)
 
 Gyazz.search(name)[0...10].each{|page|
   puts title = page[:title]
