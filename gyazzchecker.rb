@@ -17,12 +17,13 @@ name = ARGV.shift # searchword
 pages = HDB.new
 pages.open("#{name}.tch", HDB::OWRITER|HDB::OCREAT)
 
-
 Gyazz.search(name)[0...10].each{|page|
   puts title = page[:title]
   data = Gyazz.getdata(name, title)
   if pages[title] == nil
     pages[title] = data
+    puts data
+    `gtalk-send "http://gyazz.com/#{name}/#{title}\n #{data}"`
   else
     changed, diff = Gyazz.diff(pages[title], data)
     if changed
