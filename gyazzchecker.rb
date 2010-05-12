@@ -45,7 +45,7 @@ Gyazz.search(name)[0...10].each{|page|
         sleep 3
       }
     }
-    #pages[title] = data
+    pages[title] = data
   end
   sleep 10
 }
