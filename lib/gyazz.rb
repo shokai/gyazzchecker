@@ -47,7 +47,8 @@ module Gyazz
     new_lines = Array.new
     diffs.each{|d|
       next if d.old_element == d.new_element
-      new_lines << d.new_element if d.new_element.size > 0
+      line = d.new_element.to_s
+      new_lines << line if line.size > 0 and !(line =~ /^\s+$/)
     }
     new_lines
   end
