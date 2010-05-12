@@ -38,4 +38,18 @@ module Gyazz
     
   end
 
+  def Gyazz.newlines(a, b)
+    as = a.split(/[\r\n]/)
+    bs = b.split(/[\r\n]/)
+    as.shift # 1行目はhash
+    bs.shift
+    diffs = Diff::LCS.sdiff(as, bs)
+    new_lines = Array.new
+    diffs.each{|d|
+      next if d.old_element == d.new_element
+      new_lines << d.new_element if d.new_element.size > 0
+    }
+    new_lines
+  end
+
 end

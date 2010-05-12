@@ -27,12 +27,9 @@ Gyazz.search(name)[0...10].each{|page|
     puts data
     ImKayac.send(im_kayac, "newpage http://gyazz.com/#{name}/#{title}\n #{data}")
   else
-    changed, diff = Gyazz.diff(pages[title], data)
-    if changed
-      pages[title] = data
-      puts diff
-      ImKayac.send(im_kayac, "http://gyazz.com/#{name}/#{title}\n #{diff}")
-    end
+    Gyazz.newlines(pages[title], data).each{|line|
+      ImKayac.send(im_kayac, "http://gyazz.com/#{name}/#{title}\n #{line}")
+    }
   end
   sleep 10
 }
