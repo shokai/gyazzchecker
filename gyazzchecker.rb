@@ -29,6 +29,7 @@ Gyazz.search(name)[0...10].each{|page|
   else
     Gyazz.newlines(pages[title], data).each{|line|
       ImKayac.send(im_kayac, "http://gyazz.com/#{name}/#{title}\n #{line}")
+      sleep 3
     }
   end
   sleep 10
