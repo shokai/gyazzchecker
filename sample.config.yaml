@@ -1,0 +1,5 @@
+# please rename to "config.yaml"
+
+im_kayac_users : # im.kayac.com usernames
+ - "user1"
+ - "user2"

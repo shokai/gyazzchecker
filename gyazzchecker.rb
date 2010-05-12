@@ -6,15 +6,24 @@ $:.unshift(File.dirname(__FILE__)+'/lib') unless
 require 'gyazz'
 require 'im-kayac'
 require 'rubygems'
+require 'yaml'
 require 'tokyocabinet'
 include TokyoCabinet
 
-if ARGV.size < 2
-  puts 'ruby gyazzchecker.rb searchword im.kayac-username'
+if ARGV.size < 1
+  puts 'ruby gyazzchecker.rb searchword'
   exit 1
 end
+
+begin
+  config = YAML::load open(File.dirname(__FILE__) + '/config.yaml')
+rescue
+  puts 'config.yaml not found'
+  exit 1
+end
+p config
+
 name = ARGV.shift # searchword
-im_kayac = ARGV.shift
 
 pages = HDB.new
 pages.open(File.dirname(__FILE__)+"/#{name}.tch", HDB::OWRITER|HDB::OCREAT)
@@ -25,14 +34,18 @@ Gyazz.search(name)[0...10].each{|page|
   if pages[title] == nil
     pages[title] = data
     puts data
-    ImKayac.send(im_kayac, "newpage http://gyazz.com/#{name}/#{title}\n #{data}")
+    config['im_kayac_users'].each{|im_user|
+      ImKayac.send(im_user, "newpage http://gyazz.com/#{name}/#{title}\n #{data}")
+    }
   else
     Gyazz.newlines(pages[title], data).each{|line|
       puts line
-      ImKayac.send(im_kayac, "http://gyazz.com/#{name}/#{title}\n #{line}")
-      sleep 3
+      config['im_kayac_users'].each{|im_user|
+        ImKayac.send(im_user, "http://gyazz.com/#{name}/#{title}\n #{line}")
+        sleep 3
+      }
     }
-    pages[title] = data
+    #pages[title] = data
   end
   sleep 10
 }
