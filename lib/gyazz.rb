@@ -17,8 +17,8 @@ module Gyazz
     }
   end
 
-  def Gyazz.getdata(name, title, version=0)
-    open("http://gyazz.com/programs/getdata.cgi?name=#{URI.encode(name)}&title=#{URI.encode(title)}&version=#{version}").read.toutf8
+  def Gyazz.getdata(name, title)
+    open("http://gyazz.com/#{URI.encode(name)}/#{URI.encode(title)}/text").read.toutf8
   end
 
   def Gyazz.diff(a, b)
