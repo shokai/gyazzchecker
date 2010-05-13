@@ -3,3 +3,6 @@
 im_kayac_users : # im.kayac.com usernames
  - "user1"
  - "user2"
+
+twitter_user : "your-twitter-account"
+twitter_pass : "your-twitter-passwd"
