@@ -22,7 +22,7 @@ module Gyazz
   end
 
   def Gyazz.diff(a, b)
-    diffs = Diff::LCS.sdiff(a.split(/\n/),b.split(/\n/))
+    diffs = Diff::LCS.sdiff(a.split(/[\r\n]/), b.split(/[\r\n]/))
     changed = false
     str = ""
     diffs.each{|d|
@@ -38,11 +38,7 @@ module Gyazz
   end
 
   def Gyazz.newlines(a, b)
-    as = a.split(/[\r\n]/)
-    bs = b.split(/[\r\n]/)
-    as.shift # 1行目はhash
-    bs.shift
-    diffs = Diff::LCS.sdiff(as, bs)
+    diffs = Diff::LCS.sdiff(a.split(/[\r\n]/), b.split(/[\r\n]/))
     new_lines = Array.new
     diffs.each{|d|
       next if d.old_element == d.new_element

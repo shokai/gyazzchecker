@@ -39,7 +39,11 @@ Gyazz.search(name)[0...10].each{|page|
     pages[title] = data
     puts data
     message = "newpage http://gyazz.com/#{name}/#{title}\n #{data}"
-    tw.update(message[0...140])
+    begin
+      tw.update(message[0...140])
+    rescue
+      puts 'twitter update error!'
+    end
     config['im_kayac_users'].each{|im_user|
       ImKayac.send(im_user, message)
     }
@@ -47,7 +51,11 @@ Gyazz.search(name)[0...10].each{|page|
     Gyazz.newlines(pages[title], data).each{|line|
       puts line
       message = "http://gyazz.com/#{name}/#{title}\n #{line}"
-      tw.update(message[0...140])
+      begin
+        tw.update(message[0...140])
+      rescue
+        puts 'twitter update error!'
+      end
       config['im_kayac_users'].each{|im_user|
         ImKayac.send(im_user, message)
         sleep 3
