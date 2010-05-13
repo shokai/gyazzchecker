@@ -18,7 +18,7 @@ module Gyazz
   end
 
   def Gyazz.getdata(name, title, version=0)
-    lines = open("http://gyazz.com/programs/getdata.cgi?name=#{URI.encode(name)}&title=#{URI.encode(title)}&version=#{version}").read.toutf8
+    open("http://gyazz.com/programs/getdata.cgi?name=#{URI.encode(name)}&title=#{URI.encode(title)}&version=#{version}").read.toutf8
   end
 
   def Gyazz.diff(a, b)
@@ -35,7 +35,6 @@ module Gyazz
       end
     }
     return changed, str
-    
   end
 
   def Gyazz.newlines(a, b)
