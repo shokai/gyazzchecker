@@ -40,7 +40,7 @@ Gyazz.search(name)[0...10].each{|page|
     puts data
     message = "newpage http://gyazz.com/#{name}/#{title}\n #{data}"
     begin
-      tw.update(message[0...140])
+      tw.update(message[0...140]) if !config['no_tweet']
     rescue
       puts 'twitter update error!'
     end
@@ -52,7 +52,7 @@ Gyazz.search(name)[0...10].each{|page|
       puts line
       message = "http://gyazz.com/#{name}/#{title}\n #{line}"
       begin
-        tw.update(message[0...140])
+        tw.update(message[0...140]) if !config['no_tweet']
       rescue
         puts 'twitter update error!'
       end

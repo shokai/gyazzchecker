@@ -6,3 +6,4 @@ im_kayac_users : # im.kayac.com usernames
 
 twitter_user : "your-twitter-account"
 twitter_pass : "your-twitter-passwd"
+# no_tweet : "true"
