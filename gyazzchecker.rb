@@ -48,7 +48,9 @@ Gyazz.search(name)[0...10].each{|page|
       ImKayac.send(im_user, message)
     }
   else
-    Gyazz.newlines(pages[title], data).each{|line|
+    newlines = Gyazz.newlines(pages[title], data)
+    pages[title] = data if newlines.size > 0
+    newlines.each{|line|
       puts line
       message = "http://gyazz.com/#{name}/#{title}\n #{line}"
       begin
@@ -61,7 +63,6 @@ Gyazz.search(name)[0...10].each{|page|
         sleep 3
       }
     }
-    pages[title] = data
   end
   sleep 10
 }
