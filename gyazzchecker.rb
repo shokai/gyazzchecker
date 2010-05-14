@@ -4,6 +4,7 @@ $:.unshift(File.dirname(__FILE__)+'/lib') unless
   $:.include?(File.dirname(__FILE__)+'/lib') || $:.include?(File.expand_path(File.dirname(__FILE__)+'/lib'))
 
 require 'gyazz'
+require 'Memo3'
 require 'im-kayac'
 require 'rubygems'
 require 'yaml'
@@ -38,28 +39,30 @@ Gyazz.search(name)[0...10].each{|page|
   if pages[title] == nil
     pages[title] = data
     puts data
-    message = "newpage http://gyazz.com/#{name}/#{title}\n #{data}"
     begin
+      gyazz_url = Memo3.addgyazz("#{name}/#{title}", "mlab")
+      message = "newpage #{name}/#{title} #{gyazz_url} #{data}"
       tw.update(message[0...140]) if !config['no_tweet']
     rescue
       puts 'twitter update error!'
     end
     config['im_kayac_users'].each{|im_user|
-      ImKayac.send(im_user, message)
+      ImKayac.send(im_user, "newpage http://gyazz.com/#{name}/#{title}\n #{data}")
     }
   else
     newlines = Gyazz.newlines(pages[title], data)
     pages[title] = data if newlines.size > 0
+    gyazz_url = Memo3.addgyazz("#{name}/#{title}", "mlab")
     newlines.each{|line|
       puts line
-      message = "http://gyazz.com/#{name}/#{title}\n #{line}"
+      message = "#{name}/#{title} #{gyazz_url} #{line}"
       begin
         tw.update(message[0...140]) if !config['no_tweet']
       rescue
         puts 'twitter update error!'
       end
       config['im_kayac_users'].each{|im_user|
-        ImKayac.send(im_user, message)
+        ImKayac.send(im_user, "http://gyazz.com/#{name}/#{title}\n #{line}")
         sleep 3
       }
     }
