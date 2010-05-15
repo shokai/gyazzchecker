@@ -60,7 +60,7 @@ Gyazz.search(name)[0...10].each{|page|
         sleep 3
       }
       next if i > 2 # 3 tweets per 1 page
-      message = "#{name}/#{title} #{gyazz_url} #{line}"
+      message = "【#{title}】 #{gyazz_url} #{line}"
       begin
         tw.update(message[0...140]) if !config['no_tweet']
       rescue
