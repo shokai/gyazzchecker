@@ -41,7 +41,7 @@ Gyazz.search(name)[0...10].each{|page|
     puts data
     begin
       gyazz_url = Memo3.addgyazz("#{name}/#{title}", "mlab")
-      message = "newpage #{name}/#{title} #{gyazz_url} #{data}"
+      message = "newpage 【#{title}】 #{gyazz_url} #{data}"
       tw.update(message[0...140]) if !config['no_tweet']
     rescue
       puts 'twitter update error!'
@@ -59,7 +59,7 @@ Gyazz.search(name)[0...10].each{|page|
         ImKayac.send(im_user, "http://gyazz.com/#{name}/#{title}\n #{line}")
         sleep 3
       }
-      next if i > 2 # 3 tweets per 1 page
+      next if i > 1 # 2 tweets per 1 page
       message = "【#{title}】 #{gyazz_url} #{line}"
       begin
         tw.update(message[0...140]) if !config['no_tweet']
