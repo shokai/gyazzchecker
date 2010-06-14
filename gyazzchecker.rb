@@ -12,6 +12,8 @@ require 'tokyocabinet'
 include TokyoCabinet
 require 'twitter'
 
+cmd = ARGV.first
+
 begin
   config = YAML::load open(File.dirname(__FILE__) + '/config.yaml')
 rescue
@@ -28,7 +30,13 @@ pages.open(File.dirname(__FILE__)+"/#{name}.tch", HDB::OWRITER|HDB::OCREAT)
 tw_auth = Twitter::HTTPAuth.new(config["twitter_user"], config["twitter_pass"])
 tw = Twitter::Base.new(tw_auth)
 
-Gyazz.search(name)[0...10].each{|page|
+if cmd == "all"
+  page_list = Gyazz.search(name)
+else
+  page_list = Gyazz.search(name)[0...10]
+end
+
+page_list.each{|page|
   puts title = page[:title]
   data = Gyazz.getdata(name, title)
   if pages[title] == nil
