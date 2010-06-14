@@ -1,5 +1,8 @@
 # please rename to "config.yaml"
 
+gyazz : "gyazz-name"
+3memo : "3memo-name"
+
 im_kayac_users : # im.kayac.com usernames
  - "user1"
  - "user2"

@@ -12,11 +12,6 @@ require 'tokyocabinet'
 include TokyoCabinet
 require 'twitter'
 
-if ARGV.size < 1
-  puts 'ruby gyazzchecker.rb searchword'
-  exit 1
-end
-
 begin
   config = YAML::load open(File.dirname(__FILE__) + '/config.yaml')
 rescue
@@ -25,7 +20,7 @@ rescue
 end
 p config
 
-name = ARGV.shift # searchword
+name = config['gyazz']
 
 pages = HDB.new
 pages.open(File.dirname(__FILE__)+"/#{name}.tch", HDB::OWRITER|HDB::OCREAT)
@@ -40,7 +35,7 @@ Gyazz.search(name)[0...10].each{|page|
     pages[title] = data
     puts data
     begin
-      gyazz_url = Memo3.addgyazz("#{name}/#{title}", "mlab")
+      gyazz_url = Memo3.addgyazz("#{name}/#{title}", config["3memo"])
       message = "newpage 【#{title}】 #{gyazz_url} #{data}"
       tw.update(message[0...140]) if !config['no_tweet']
     rescue
