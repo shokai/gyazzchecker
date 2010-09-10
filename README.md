@@ -38,6 +38,17 @@ Config
 
 then edit it.
 
+Twitter update
+--------------
+
+regist your app [on twitter](http://twitter.com/apps/new)
+
+edit cosumer_key and secret in config.yaml.
+
+get access_token and secret
+
+    % ruby auth.rb
+
 
 Run
 ===
