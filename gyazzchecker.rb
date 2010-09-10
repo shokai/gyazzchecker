@@ -27,8 +27,16 @@ name = config['gyazz']
 pages = HDB.new
 pages.open(File.dirname(__FILE__)+"/#{name}.tch", HDB::OWRITER|HDB::OCREAT)
 
-tw_auth = Twitter::HTTPAuth.new(config["twitter_user"], config["twitter_pass"])
-tw = Twitter::Base.new(tw_auth)
+tw = nil
+unless config['no_tweet']
+  begin
+    oauth = Twitter::OAuth.new(config['consumer_key'], config['consumer_secret'])
+    oauth.authorize_from_access(config['access_token'], config['access_secret'])
+    tw = Twitter::Base.new(oauth)
+  rescue => e
+    STDERR.puts e
+  end
+end
 
 if cmd == "all"
   page_list = Gyazz.search(name)

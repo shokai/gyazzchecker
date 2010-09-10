@@ -7,6 +7,11 @@ im_kayac_users : # im.kayac.com usernames
  - "user1"
  - "user2"
 
-twitter_user : "your-twitter-account"
-twitter_pass : "your-twitter-passwd"
+
+# twitter config
+consumer_key : 'your-app-consumer-key'
+consumer_secret : 'your-app-consumer-secret'
+access_token : 'use auth.rb'
+access_secret : 'use auth.rb'
+
 # no_tweet : "true"
