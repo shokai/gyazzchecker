@@ -30,9 +30,12 @@ pages.open(File.dirname(__FILE__)+"/#{name}.tch", HDB::OWRITER|HDB::OCREAT)
 tw = nil
 unless config['no_tweet']
   begin
-    oauth = Twitter::OAuth.new(config['consumer_key'], config['consumer_secret'])
-    oauth.authorize_from_access(config['access_token'], config['access_secret'])
-    tw = Twitter::Base.new(oauth)
+    Twitter.configure do |c|
+      c.consumer_key = config['consumer_key']
+      c.consumer_secret = config['consumer_secret']
+      c.oauth_token = config['access_token']
+      c.oauth_token_secret = config['access_secret']
+    end
   rescue => e
     STDERR.puts e
   end
@@ -53,7 +56,7 @@ page_list.each{|page|
     begin
       gyazz_url = Memo3.addgyazz("#{name}/#{title}", config["3memo"])
       message = "newpage 【#{title}】 #{gyazz_url} #{data}"
-      tw.update(message[0...140]) if !config['no_tweet']
+      Twitter.update(message[0...140]) if !config['no_tweet']
     rescue
       puts 'twitter update error!'
     end
@@ -73,7 +76,7 @@ page_list.each{|page|
       next if i > 1 # 2 tweets per 1 page
       message = "【#{title}】 #{gyazz_url} #{line}"
       begin
-        tw.update(message[0...140]) if !config['no_tweet']
+        Twitter.update(message[0...140]) if !config['no_tweet']
       rescue
         puts 'twitter update error!'
       end
