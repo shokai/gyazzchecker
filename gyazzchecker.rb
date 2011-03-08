@@ -1,12 +1,10 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
-$:.unshift(File.dirname(__FILE__)+'/lib') unless
-  $:.include?(File.dirname(__FILE__)+'/lib') || $:.include?(File.expand_path(File.dirname(__FILE__)+'/lib'))
-
-require 'gyazz'
-require 'Memo3'
-require 'im-kayac'
+Dir.glob(File.dirname(__FILE__)+'/lib/*.rb').each{|f|
+  require f
+}
 require 'rubygems'
+require 'im-kayac'
 require 'yaml'
 require 'tokyocabinet'
 include TokyoCabinet
@@ -61,16 +59,16 @@ page_list.each{|page|
       puts 'twitter update error!'
     end
     config['im_kayac_users'].each{|im_user|
-      ImKayac.send(im_user, "newpage http://gyazz.com/#{name}/#{title}\n #{data}")
+      ImKayac.post(im_user, "newpage http://gyazz.com/#{name}/#{title}\n #{data}")
     }
   else
     newlines = Gyazz.newlines(pages[title], data)
     pages[title] = data if newlines.size > 0
-    gyazz_url = Memo3.addgyazz("#{name}/#{title}", "mlab")
+    gyazz_url = Memo3.addgyazz("#{name}/#{title}", "mlab") # なおす
     for i in 0...newlines.size do
       puts line = newlines[i]
       config['im_kayac_users'].each{|im_user|
-        ImKayac.send(im_user, "http://gyazz.com/#{name}/#{title}\n #{line}")
+        ImKayac.post(im_user, "http://gyazz.com/#{name}/#{title}\n #{line}")
         sleep 3
       }
       next if i > 1 # 2 tweets per 1 page
