@@ -64,7 +64,7 @@ page_list.each{|page|
   else
     newlines = Gyazz.newlines(pages[title], data)
     pages[title] = data if newlines.size > 0
-    gyazz_url = Memo3.addgyazz("#{name}/#{title}", "mlab") # なおす
+    gyazz_url = Memo3.addgyazz("#{name}/#{title}", config['3memo'])
     for i in 0...newlines.size do
       puts line = newlines[i]
       config['im_kayac_users'].each{|im_user|
