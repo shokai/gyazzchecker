@@ -55,11 +55,17 @@ page_list.each{|page|
       gyazz_url = Memo3.addgyazz("#{name}/#{title}", config["3memo"])
       message = "newpage 【#{title}】 #{gyazz_url} #{data}"
       Twitter.update(message[0...140]) if !config['no_tweet']
-    rescue
-      puts 'twitter update error!'
+    rescue => e
+      STDERR.puts e
+      STDERR.puts 'twitter update error'
     end
     config['im_kayac_users'].each{|im_user|
-      ImKayac.post(im_user, "newpage http://gyazz.com/#{name}/#{title}\n #{data}")
+      begin
+        ImKayac.post(im_user, "newpage http://gyazz.com/#{name}/#{title}\n #{data}")
+      rescue => e
+        STDERR.puts e
+        STDERR.puts "IM update (#{im_user}) error"
+      end
     }
   else
     newlines = Gyazz.newlines(pages[title], data)
@@ -68,15 +74,21 @@ page_list.each{|page|
     for i in 0...newlines.size do
       puts line = newlines[i]
       config['im_kayac_users'].each{|im_user|
-        ImKayac.post(im_user, "http://gyazz.com/#{name}/#{title}\n #{line}")
-        sleep 3
+        begin
+          ImKayac.post(im_user, "http://gyazz.com/#{name}/#{title}\n #{line}")
+        rescue => e
+          STDERR.puts e
+          STDERR.puts "IM update (#{im_user}) error"
+        end
+        sleep 15/config['im_kayac_users'].size
       }
       next if i > 1 # 2 tweets per 1 page
       message = "【#{title}】 #{gyazz_url} #{line}"
       begin
         Twitter.update(message[0...140]) if !config['no_tweet']
-      rescue
-        puts 'twitter update error!'
+      rescue => e
+        STDERR.puts e
+        STDERR.puts 'twitter update error'
       end
     end
   end
