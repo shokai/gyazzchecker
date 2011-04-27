@@ -4,6 +4,7 @@ Dir.glob(File.dirname(__FILE__)+'/lib/*.rb').each{|f|
   require f
 }
 require 'rubygems'
+require 'bundler/setup'
 require 'im-kayac'
 require 'yaml'
 require 'tokyocabinet'

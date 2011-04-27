@@ -27,8 +27,6 @@ Install Dependencies
   
     # Install gems
     % bundle install
-    # or
-    % sudo gem install tokyocabinet twitter
 
 
 Config
