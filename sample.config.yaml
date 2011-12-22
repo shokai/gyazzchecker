@@ -3,6 +3,9 @@
 gyazz : "gyazz-name"
 3memo : "3memo-name"
 
+# gyazz_user : 'http-basic-user'
+# gyazz_pass : 'http-basic-pass'
+
 im_kayac_users : # im.kayac.com usernames
  - "user1"
  - "user2"

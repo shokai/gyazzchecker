@@ -40,15 +40,22 @@ unless config['no_tweet']
   end
 end
 
+if config['gyazz_user'] and config['gyazz_pass']
+  http_opt = {
+    :http_basic_authentication => [config['gyazz_user'], config['gyazz_pass']]
+  }
+end
+
 if cmd == "all"
-  page_list = Gyazz.search(name)
+  page_list = Gyazz.search(name,http_opt)
 else
-  page_list = Gyazz.search(name)[0...10]
+  page_list = Gyazz.search(name,http_opt)[0...10]
 end
 
 page_list.each{|page|
   puts title = page[:title]
-  data = Gyazz.getdata(name, title)
+
+  data = Gyazz.getdata(name, title, http_opt)
   if pages[title] == nil
     pages[title] = data
     puts data
