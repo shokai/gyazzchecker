@@ -9,16 +9,18 @@ require 'diff/lcs'
 
 module Gyazz
 
-  def Gyazz.search(name, http_opt=nil)
-    page = open("http://gyazz.com/#{URI.encode(name)}/", http_opt).read.toutf8
+  def Gyazz.search(name, http_opt={})
+    page = http_opt ? open("http://gyazz.com/#{URI.encode(name)}/", http_opt).read.toutf8 :
+      open("http://gyazz.com/#{URI.encode(name)}/").read.toutf8
     links = Hpricot(page)/:a
     links.map{|i|
       {:url => i[:href].to_s, :title => i.inner_html.to_s}
     }
   end
 
-  def Gyazz.getdata(name, title, http_opt=nil)
-    open("http://gyazz.com/#{URI.encode(name)}/#{URI.encode(title)}/text", http_opt).read.toutf8
+  def Gyazz.getdata(name, title, http_opt={})
+    http_opt ? open("http://gyazz.com/#{URI.encode(name)}/#{URI.encode title}/text", http_opt).read.toutf8 :
+      open("http://gyazz.com/#{URI.encode(name)}/#{URI.encode title}/text").read.toutf8
   end
 
   def Gyazz.diff(a, b)
