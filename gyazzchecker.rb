@@ -10,6 +10,7 @@ require 'yaml'
 require 'tokyocabinet'
 include TokyoCabinet
 require 'twitter'
+require 'uri'
 
 cmd = ARGV.first
 
@@ -60,8 +61,8 @@ page_list.each{|page|
     pages[title] = data
     puts data
     begin
-      gyazz_url = Memo3.addgyazz("#{name}/#{title}", config["3memo"])
-      message = "newpage 【#{title}】 #{gyazz_url} #{data}"
+      gyazz_url = "http://gyazz.com/#{name}/#{title}"
+      message = "newpage 【#{title}】#{URI.encode gyazz_url} #{data}"
       Twitter.update(message[0...140]) if !config['no_tweet']
     rescue => e
       STDERR.puts e
@@ -78,7 +79,6 @@ page_list.each{|page|
   else
     newlines = Gyazz.newlines(pages[title], data)
     pages[title] = data if newlines.size > 0
-    gyazz_url = Memo3.addgyazz("#{name}/#{title}", config['3memo'])
     for i in 0...newlines.size do
       puts line = newlines[i]
       config['im_kayac_users'].each{|im_user|
@@ -91,7 +91,8 @@ page_list.each{|page|
         sleep 15/config['im_kayac_users'].size
       }
       next if i > 1 # 2 tweets per 1 page
-      message = "【#{title}】 #{gyazz_url} #{line}"
+      gyazz_url = "http://gyazz.com/#{name}/#{title}"
+      message = "【#{title}】#{URI.encode gyazz_url} #{line}"
       begin
         Twitter.update(message[0...140]) if !config['no_tweet']
       rescue => e
