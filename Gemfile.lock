@@ -1,0 +1,31 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    diff-lcs (1.1.3)
+    faraday (0.8.4)
+      multipart-post (~> 1.1)
+    hpricot (0.8.6)
+    im-kayac (0.0.5)
+      json
+    json (1.7.5)
+    multi_json (1.3.6)
+    multipart-post (1.1.5)
+    oauth (0.4.7)
+    simple_oauth (0.1.9)
+    tokyocabinet (1.29)
+    twitter (3.7.0)
+      faraday (~> 0.8)
+      multi_json (~> 1.3)
+      simple_oauth (~> 0.1.6)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  diff-lcs
+  hpricot
+  im-kayac
+  json
+  oauth
+  tokyocabinet
+  twitter

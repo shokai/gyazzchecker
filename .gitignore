@@ -7,4 +7,3 @@ db*
 .fuse*
 *.tch
 config.yaml
-*.lock
